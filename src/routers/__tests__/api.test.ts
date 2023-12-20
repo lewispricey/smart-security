@@ -10,3 +10,11 @@ describe("/health-check", () => {
     expect(body).toEqual({ msg: "OK" });
   });
 });
+
+describe("/invalid-endpoint", () => {
+  test("404 - responds with not found error", async () => {
+    const { status, body } = await request(app).get(baseURL + "/not-here");
+    expect(status).toBe(404);
+    expect(body).toEqual({ msg: "Invalid Path" });
+  });
+});
