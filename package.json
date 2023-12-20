@@ -1,4 +1,15 @@
 {
+  "name": "smart-security",
+  "description": "",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest",
+    "build": "npx tsc",
+    "start": "node ./dist/app.js"
+  },
+  "author": "",
+  "license": "ISC",
   "devDependencies": {
     "typescript": "^5.3.3"
   }
