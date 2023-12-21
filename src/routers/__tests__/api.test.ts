@@ -49,6 +49,7 @@ describe("/zone", () => {
       expect(status).toBe(201);
       expect(body).toEqual({ name: "New-Zone", status: "disarmed" });
     });
+
     test("400 - responds with error when name is missing", async () => {
       const { status, body } = await request(app)
         .post(baseURL + "/zone")
@@ -87,6 +88,20 @@ describe("/zone", () => {
         .send({ status: "not-a-status" });
       expect(status).toBe(400);
       expect(body).toEqual({ msg: "Status is required" });
+    });
+  });
+  describe("DELETE", () => {
+    test("204 - responds with no content", async () => {
+      const { status } = await request(app).delete(baseURL + "/zone/New-Zone");
+      expect(status).toBe(204);
+    });
+
+    test("404 - responds with not found error", async () => {
+      const { status, body } = await request(app).delete(
+        baseURL + "/zone/Not-a-Zone"
+      );
+      expect(status).toBe(404);
+      expect(body).toEqual({ msg: "Zone not found" });
     });
   });
 });
