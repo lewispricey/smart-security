@@ -49,6 +49,13 @@ describe("/zone", () => {
       expect(status).toBe(201);
       expect(body).toEqual({ name: "New-Zone", status: "disarmed" });
     });
+    test("400 - responds with error when name is missing", async () => {
+      const { status, body } = await request(app)
+        .post(baseURL + "/zone")
+        .send({});
+      expect(status).toBe(400);
+      expect(body).toEqual({ msg: "Name is required" });
+    });
   });
   describe("PATCH", () => {
     test("200 - responds with the updated zone", async () => {
