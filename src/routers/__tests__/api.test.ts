@@ -72,6 +72,22 @@ describe("/zone", () => {
       expect(status).toBe(404);
       expect(body).toEqual({ msg: "Zone not found" });
     });
+
+    test("400 - responds with error when status is missing", async () => {
+      const { status, body } = await request(app)
+        .patch(baseURL + "/zone/New-Zone")
+        .send({});
+      expect(status).toBe(400);
+      expect(body).toEqual({ msg: "Status is required" });
+    });
+
+    test("400 - responds with error when status is not armed or disarmed", async () => {
+      const { status, body } = await request(app)
+        .patch(baseURL + "/zone/New-Zone")
+        .send({ status: "not-a-status" });
+      expect(status).toBe(400);
+      expect(body).toEqual({ msg: "Status is required" });
+    });
   });
 });
 
