@@ -67,3 +67,31 @@ describe("/zone", () => {
     });
   });
 });
+
+//test the /user endpoint posting a new user and getting the new user back
+describe("/users", () => {
+  describe("POST", () => {
+    test("201 - responds with the new user", async () => {
+      const { status, body } = await request(app)
+        .post(baseURL + "/user")
+        .send({ name: "New-User", accessCode: "1234" });
+      expect(status).toBe(201);
+      expect(body).toEqual({ name: "New-User", accessCode: "1234" });
+    });
+    //check responds with error when name or accessCode is missing
+    test("400 - responds with error when name is missing", async () => {
+      const { status, body } = await request(app)
+        .post(baseURL + "/user")
+        .send({ accessCode: "1234" });
+      expect(status).toBe(400);
+      expect(body).toEqual({ msg: "Name and access code are required" });
+    });
+    test("400 - responds with error when accessCode is missing", async () => {
+      const { status, body } = await request(app)
+        .post(baseURL + "/user")
+        .send({ name: "New-User" });
+      expect(status).toBe(400);
+      expect(body).toEqual({ msg: "Name and access code are required" });
+    });
+  });
+});
