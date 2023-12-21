@@ -39,3 +39,31 @@ describe("/invalid-endpoint", () => {
     expect(body).toEqual({ msg: "Invalid Path" });
   });
 });
+
+describe("/zone", () => {
+  describe("POST", () => {
+    test("201 - responds with the new zone", async () => {
+      const { status, body } = await request(app)
+        .post(baseURL + "/zone")
+        .send({ name: "New-Zone" });
+      expect(status).toBe(201);
+      expect(body).toEqual({ name: "New-Zone", status: "disarmed" });
+    });
+  });
+  describe("PATCH", () => {
+    test("200 - responds with the updated zone", async () => {
+      const { status, body } = await request(app)
+        .patch(baseURL + "/zone/New-Zone")
+        .send({ status: "armed" });
+      expect(status).toBe(200);
+      expect(body).toEqual({ name: "New-Zone", status: "armed" });
+    });
+    test("404 - responds with not found error", async () => {
+      const { status, body } = await request(app)
+        .patch(baseURL + "/zone/Not-a-Zone")
+        .send({ status: "armed" });
+      expect(status).toBe(404);
+      expect(body).toEqual({ msg: "Zone not found" });
+    });
+  });
+});

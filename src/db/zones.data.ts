@@ -5,11 +5,11 @@ export interface Zone {
 
 const zones: Zone[] = [
   {
-    name: "Front Door",
+    name: "Front-Door",
     status: "armed",
   },
   {
-    name: "Back Door",
+    name: "Back-Door",
     status: "disarmed",
   },
 ];
