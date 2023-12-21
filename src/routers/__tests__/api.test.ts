@@ -94,4 +94,30 @@ describe("/users", () => {
       expect(body).toEqual({ msg: "Name and access code are required" });
     });
   });
+  describe("PATCH", () => {
+    //tests for patching user
+    test("200 - responds with the updated user", async () => {
+      const { status, body } = await request(app)
+        .patch(baseURL + "/user/New-User")
+        .send({ accessCode: "9823" });
+      expect(status).toBe(200);
+      expect(body).toEqual({ name: "New-User", accessCode: "9823" });
+    });
+
+    test("404 - responds with not found error", async () => {
+      const { status, body } = await request(app)
+        .patch(baseURL + "/user/Not-a-User")
+        .send({ accessCode: "9823" });
+      expect(status).toBe(404);
+      expect(body).toEqual({ msg: "User not found" });
+    });
+
+    test("400 - responds with error when accessCode is missing", async () => {
+      const { status, body } = await request(app)
+        .patch(baseURL + "/user/New-User")
+        .send({});
+      expect(status).toBe(400);
+      expect(body).toEqual({ msg: "Access code is required" });
+    });
+  });
 });
