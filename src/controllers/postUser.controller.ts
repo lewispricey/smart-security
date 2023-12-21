@@ -1,8 +1,6 @@
 import users, { User } from "../db/users.data";
 import { Controller } from "./controller.types";
 
-// refactor this function to respond with error when name or accessCode is missing
-
 const postUser: Controller = (request, response, next) => {
   const { name, accessCode } = request.body;
 

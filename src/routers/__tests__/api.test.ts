@@ -78,7 +78,7 @@ describe("/users", () => {
       expect(status).toBe(201);
       expect(body).toEqual({ name: "New-User", accessCode: "1234" });
     });
-    //check responds with error when name or accessCode is missing
+
     test("400 - responds with error when name is missing", async () => {
       const { status, body } = await request(app)
         .post(baseURL + "/user")
