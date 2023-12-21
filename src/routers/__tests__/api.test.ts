@@ -68,7 +68,6 @@ describe("/zone", () => {
   });
 });
 
-//test the /user endpoint posting a new user and getting the new user back
 describe("/users", () => {
   describe("POST", () => {
     test("201 - responds with the new user", async () => {
@@ -86,6 +85,7 @@ describe("/users", () => {
       expect(status).toBe(400);
       expect(body).toEqual({ msg: "Name and access code are required" });
     });
+
     test("400 - responds with error when accessCode is missing", async () => {
       const { status, body } = await request(app)
         .post(baseURL + "/user")
@@ -94,8 +94,8 @@ describe("/users", () => {
       expect(body).toEqual({ msg: "Name and access code are required" });
     });
   });
+
   describe("PATCH", () => {
-    //tests for patching user
     test("200 - responds with the updated user", async () => {
       const { status, body } = await request(app)
         .patch(baseURL + "/user/New-User")
@@ -118,6 +118,21 @@ describe("/users", () => {
         .send({});
       expect(status).toBe(400);
       expect(body).toEqual({ msg: "Access code is required" });
+    });
+  });
+
+  describe("DELETE", () => {
+    test("204 - responds with no content", async () => {
+      const { status } = await request(app).delete(baseURL + "/user/New-User");
+      expect(status).toBe(204);
+    });
+
+    test("404 - responds with not found error", async () => {
+      const { status, body } = await request(app).delete(
+        baseURL + "/user/Not-a-User"
+      );
+      expect(status).toBe(404);
+      expect(body).toEqual({ msg: "User not found" });
     });
   });
 });
